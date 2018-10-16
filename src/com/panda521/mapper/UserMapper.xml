@@ -9,7 +9,7 @@
     <!-- parameterType:声明输入参数的类型 -->
     <!-- resultType:声明输出结果的类型，应该填写pojo的全路径 -->
     <!-- #{}：输入参数的占位符，相当于jdbc的？ -->
-    <select id="queryUserById" parameterType="java.lang.Integer" resultType="com.panda521.entity.UserDO">
+    <select id="queryUserById" parameterType="java.lang.Integer" resultType="UserDO">
         SELECT * FROM `user` WHERE id  = #{id}
     </select>
 </mapper>

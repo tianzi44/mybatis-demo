@@ -3,23 +3,36 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+    <properties resource="resource/db.properties">
+        <!-- 在properties内部用property定义属性 -->
+        <!-- 如果外部配置文件有该属性，则内部定义属性被外部属性覆盖 -->
+        <property name="database" value="jdbc_demo2"></property>
+        <property name="jdbc.driver" value="com.mysql.jdbc.Driver"></property>
+    </properties>
+    <!--别名-->
+    <typeAliases>
+        <typeAlias type="com.panda521.entity.UserDO" alias="UserDO"></typeAlias>
+    </typeAliases>
     <environments default="development">
         <environment id="development">
             <!-- 使用jdbc事务管理 -->
             <transactionManager type="JDBC"/>
             <!-- 数据库连接池 -->
             <dataSource type="POOLED">
-                <property name="driver" value="com.mysql.jdbc.Driver"/>
-                <property name="url"
-                          value="jdbc:mysql://localhost:3306/jdbc_demo?characterEncoding=utf-8"/>
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/${database}?characterEncoding=utf-8"/>
                 <property name="username" value="root"/>
                 <property name="password" value="123456"/>
             </dataSource>
         </environment>
     </environments>
     <mappers>
-        <mapper resource="resource/mapper/UserMapper.xml"></mapper>
+        <!--mapper 使用resource时，指定的目录需要从class所在目录开始，和当前所在的SqlMapConfig.xml文件没什么关系-->
+        <!--<mapper resource="resource/mapper/UserMapper.xml"></mapper>-->
         <mapper resource="resource/mapper/UserMapper1.xml"></mapper>
         <mapper resource="resource/mapper/UserMapper2.xml"></mapper>
+
+        <!--使用package 时，需要将xml文件 和 对应的 mapper类放在同一目录下，才能生效-->
+        <package name="com.panda521.mapper"></package>
     </mappers>
 </configuration>
